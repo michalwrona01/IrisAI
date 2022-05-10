@@ -1,0 +1,69 @@
+1. Tytuł: Baza danych roślin irysów
+Zaktualizowano 21 września przez C.Blake'a - Dodano informacje o rozbieżnościach
+
+2. Źródła:
+     (a) Twórca: R.A. Rybak
+     (b) Dawca: Michael Marshall (MARSHALL%PLU@io.arc.nasa.gov)
+     (c) Data: lipiec 1988
+
+3. Wcześniejsze użycie:
+   - Publikacje: zbyt wiele, by je wymienić!!! Tu jest kilka.
+   1. Fisher, R.A. „Zastosowanie wielokrotnych pomiarów w problemach taksonomicznych”
+      Annual Eugenics, 7, część II, 179-188 (1936); także w „Składki
+      do statystyki matematycznej” (John Wiley, NY, 1950).
+   2. Duda, RO i Hart, PE (1973) Klasyfikacja wzorców i analiza sceny.
+      (Q327.D83) John Wiley i Synowie. ISBN 0-471-22361-1. Patrz strona 218.
+   3. Dasarathy, BV (1980) „Węszenie wokół sąsiedztwa: nowy system
+      Struktura i reguła klasyfikacji dla uznania za częściowo odsłonięte
+      Środowiska". IEEE Transactions on Pattern Analysis and Machine
+      Inteligencja, tom. PAMI-2, nr 1, 67-71.
+      -- Wyniki:
+         -- bardzo niskie wskaźniki błędnej klasyfikacji (0% dla klasy setosa)
+   4. Bramy, G.W. (1972) „Zredukowana reguła najbliższego sąsiada”. IEEE
+      Transakcje dotyczące teorii informacji, maj 1972, 431-433.
+      -- Wyniki:
+         -- ponownie bardzo niskie wskaźniki błędnej klasyfikacji
+   5. Zobacz także: 1988 MLC Proceedings, 54-64. Cheeseman i inni AUTOCLASS II
+      koncepcyjny system grupowania znajduje w danych 3 klasy.
+
+4. Istotne informacje:
+   --- To chyba najbardziej znana baza danych, jaką można znaleźć we wzorcu
+       literatura rozpoznawcza. Papier Fishera to klasyk w tej dziedzinie
+       i jest często przywoływany do dnia dzisiejszego. (Patrz Duda i Hart, dla
+       przykład.) Zbiór danych zawiera 3 klasy po 50 instancji każda,
+       gdzie każda klasa odnosi się do rodzaju rośliny irysa. Jedna klasa to
+       liniowo oddzielone od pozostałych 2; te ostatnie NIE są liniowo
+       możliwe do oddzielenia od siebie.
+   --- Przewidywany atrybut: klasa rośliny tęczówki.
+   --- To niezwykle prosta domena.
+   --- Te dane różnią się od danych przedstawionych w artykule Fishers
+(zidentyfikowany przez Steve'a Chadwicka, spchadwick@espeedaz.net )
+35. próbka powinna być: 4.9,3.1,1.5,0.2,"Iris-setosa"
+gdzie błąd jest w czwartej funkcji.
+38. próbka: 4.9,3.6,1.4,0.1, "Iris-setosa"
+gdzie błędy są w drugiej i trzeciej funkcji.
+
+5. Liczba instancji: 150 (50 w każdej z trzech klas)
+
+6. Liczba atrybutów: 4 liczbowe, predykcyjne atrybuty i klasa
+
+7. Informacje o atrybucie:
+   1. długość kielicha w cm
+   2. sepal szerokość w cm
+   3. długość płatka w cm
+   4. szerokość płatka w cm
+   5. klasa:
+      -- Iris Setosa
+      -- Iris Versicolor
+      -- Iris Virginica
+
+8. Brakujące wartości atrybutów: brak
+
+Statystyki podsumowujące:
+Min. Maks. Średnia korelacja klasy SD
+   długość kielicha: 4,3 7,9 5,84 0,83 0,7826
+    szerokość przegrody: 2,0 4,4 3,05 0,43 -0,4194
+   długość płatka: 1,0 6,9 3,76 1,76 0,9490 (wysoka!)
+    szerokość płatka: 0,1 2,5 1,20 0,76 0,9565 (wysoka!)
+
+9. Rozkład klas: 33,3% dla każdej z 3 klas.
