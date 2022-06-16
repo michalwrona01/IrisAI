@@ -10,6 +10,32 @@ import torch
 import torch.nn as nn
 
 
+def draw_plot_3d():
+    pts = np.loadtxt(np.DataSource().open('plot_3d.txt'), delimiter=',')
+    x, y, z = pts.T
+    fig = go.Figure(data=[go.Mesh3d(x=x, y=y, z=z, opacity=1, intensity=z, flatshading=True, colorscale='rainbow',
+                                    showscale=True)])
+    fig.update_layout(scene=dict(
+        xaxis_title='S1',
+        yaxis_title='S2',
+        zaxis_title='Poprawność klasyfikacji [%]'), font=dict(
+        family="Times New Roman",
+        size=12,
+        color="black"
+    ))
+    config = {
+        'toImageButtonOptions': {
+            'format': 'png',
+            'filename': 'nazwa2',
+            'height': 1200,
+            'width': 1400,
+            'scale': 1  # Multiply title/legend/axis/canvas sizes by this factor
+        }
+    }
+
+    fig.show(config=config)
+
+
 class NNIris(nn.Module):
     """Klasa sieci neuronowej dla zbioru Iris."""
 
@@ -97,7 +123,6 @@ class NNIris(nn.Module):
                     self.optimizer.step()  # Wykonanie akutalizacji na podstawie akutalnego gradientu
                     loss_train += loss.item()
 
-
                 for i in range(len(self.X_test)):
                     output_test = self(self.X_test[i])
                     loss_test = self.criterion(output_test, self.Y_test[i])
@@ -152,42 +177,62 @@ class NNIris(nn.Module):
             _, predicted = torch.max(out, 1)
             train_acc = torch.sum(predicted == self.Y_test)
 
-        return f'Accuracy: {round((train_acc.item() / len(self.Y_test)) * 100)}%'
+        return f'Accuracy: {round((train_acc.item() / len(self.Y_test)) * 100)}%', (train_acc.item() / len(self.Y_test)) * 100
 
 
 if __name__ == '__main__':
     iris_dataset = datasets.load_iris()
 
-    # Eksperymet 1
-    network = NNIris(epochs=100, lr=0.01, momentum=0.01,
-                     input_layer_size=4, hidden1_layer_size=11, hidden2_layer_size=5, output_layer_size=3,
-                     data_set=iris_dataset)
+    # # Eksperymet 1
+    # network = NNIris(epochs=100, lr=0.01, momentum=0.01,
+    #                  input_layer_size=4, hidden1_layer_size=11, hidden2_layer_size=5, output_layer_size=3,
+    #                  data_set=iris_dataset)
+    #
+    # network.learn()
+    # print(network.predict())
+    # network.draw_plot_3d_test_loss_epoch()
 
-    network.learn()
-    print(network.predict())
-    network.draw_plot_3d_test_loss_epoch()
+    # # Eksperyment 2
+    # network = NNIris(epochs=200, lr=0.1, momentum=0.01,
+    #                  input_layer_size=4, hidden1_layer_size=50, hidden2_layer_size=30, output_layer_size=3,
+    #                  data_set=iris_dataset)
+    #
+    # network.learn()
+    # print(network.predict())
+    # network.draw_plot_3d_test_loss_epoch()
+    #
+    # # Eksperyment 3
+    # network = NNIris(epochs=500, lr=0.1, momentum=0.8,
+    #                  input_layer_size=4, hidden1_layer_size=50, hidden2_layer_size=30, output_layer_size=3,
+    #                  data_set=iris_dataset)
+    # network.learn()
+    # print(network.predict())
+    # network.draw_plot_3d_test_loss_epoch()
+    #
+    # # Eksperyment 4
+    # network = NNIris(epochs=200, lr=0.01, momentum=0.01,
+    #                  input_layer_size=4, hidden1_layer_size=10, hidden2_layer_size=5, output_layer_size=3,
+    #                  data_set=iris_dataset)
+    # network.learn()
+    # print(network.predict())
+    # network.draw_plot_3d_test_loss_epoch()
 
-    # Eksperyment 2
-    network = NNIris(epochs=200, lr=0.1, momentum=0.01,
-                     input_layer_size=4, hidden1_layer_size=50, hidden2_layer_size=30, output_layer_size=3,
-                     data_set=iris_dataset)
+    with open(file='plot_3d.txt', mode='w') as file:
+        accuracies = list()
 
-    network.learn()
-    print(network.predict())
-    network.draw_plot_3d_test_loss_epoch()
+        for j in range(1, 10):
+            for i in range(1, 5):
+                print(j, '-', i)
+                network = NNIris(epochs=200, lr=0.01, momentum=0.01,
+                                 input_layer_size=4, hidden1_layer_size=j, hidden2_layer_size=i, output_layer_size=3,
+                                 data_set=iris_dataset)
 
-    # Eksperyment 3
-    network = NNIris(epochs=500, lr=0.1, momentum=0.8,
-                     input_layer_size=4, hidden1_layer_size=50, hidden2_layer_size=30, output_layer_size=3,
-                     data_set=iris_dataset)
-    network.learn()
-    print(network.predict())
-    network.draw_plot_3d_test_loss_epoch()
+                file.write(str(j)+', ')
+                file.write(str(i)+', ')
 
-    # Eksperyment 4
-    network = NNIris(epochs=200, lr=0.01, momentum=0.01,
-                     input_layer_size=4, hidden1_layer_size=10, hidden2_layer_size=5, output_layer_size=3,
-                     data_set=iris_dataset)
-    network.learn()
-    print(network.predict())
-    network.draw_plot_3d_test_loss_epoch()
+                network.learn()
+                _, accuracy = network.predict()
+                file.write(str(accuracy)+'\n')
+                accuracies.append(accuracy)
+
+    draw_plot_3d()
